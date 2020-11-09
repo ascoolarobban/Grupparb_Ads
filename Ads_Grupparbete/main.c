@@ -22,10 +22,36 @@ typedef struct
     int stop;
     
 }ADS;
-//void HandleWinning
-//{
+void RunOneOfIot()
+{
+    //Kanske slumpa ??
+    //if(----)
+    //    Blink("Hello")
+    //if(----)
+    //    Scroll("There")
     
-//}
+}
+void HandleWinning(ADS winning)
+{
+    if (!strcmp(winning.name, "IoT-20"))
+    {
+        RunOneOfIot();
+        
+    }
+
+//    if (!strcmp(winning.name, "Svarte Petters Svartbyggen"))
+//        RunOneOfSvarteP();
+//    if (!strcmp(winning.name, "Farmor Ankas Pajer AB"))
+//        RunOneOfFarmor();
+//    if (!strcmp(winning.name, "Långbens detektivbyrå"))
+//        RunOneOfLångben();
+//    if (!strcmp(winning.name, "Hederlige Harrys Bilar"))
+//        RunOneOfHarry();
+}
+
+
+
+
 int main()
 {
     ADS a;
@@ -33,35 +59,35 @@ int main()
     strcpy(a.message, "hejhej");
     a.tokens = 1000; //1501-1600
     a.start = 0;
-    a.start = 1000;
+    a.stop = 1000;
     
     ADS a2;
     strcpy(a2.name, "Svarte Petters Svartbyggen");
     strcpy(a2.message, "hejhej");
     a2.tokens = 1500; //1501-1600
     a.start = 1001;
-    a.start = 2501;
+    a.stop = 2501;
     
     ADS a3;
     strcpy(a3.name, "Farmor Ankas Pajer AB");
     strcpy(a3.message, "hejhej");
     a3.tokens = 3000; //1501-1600
     a.start = 5502;
-    a.start = 8502;
+    a.stop = 8502;
     
     ADS a4;
     strcpy(a4.name, "Långbens detektivbyrå");
     strcpy(a4.message, "hejhej");
     a4.tokens = 4000; //1501-1600
     a.start = 8503;
-    a.start = 15504;
+    a.stop = 15504;
     
     ADS a5;
     strcpy(a5.name, "Hederlige Harrys Bilar");
     strcpy(a5.message, "hejhej");
     a5.tokens = 5000; //1501-1600
     a.start = 15504;
-    a.start = 20505;
+    a.stop = 20505;
     
     ADS customers[5];
         customers[0] = a;
@@ -81,14 +107,14 @@ int main()
         //När vi fått fram vem som har lotten
         int i = 2; //Låt oss säga att det blev 2
         ADS winning = customers[i];
-//        HandleWinning(winning);
+        HandleWinning(winning);
         
         
-        //Huvudmeny(&state);ändringhejhej
-
+        //Huvudmeny(&state);
         return 0;
 }
 
+//Senap
 
 
 
