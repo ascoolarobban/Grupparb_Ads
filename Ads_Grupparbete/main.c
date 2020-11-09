@@ -10,7 +10,6 @@
 #include <time.h>
 #include <stdio.h>
 #include <string.h>
-srand(10000);
 
 typedef struct
 {
@@ -81,6 +80,7 @@ void HandleWinning(ADS winning)
 
 int main()
 {
+    srand(10000);
     ADS a;
     a.name = 1;
     a.tokens = 1000;
@@ -146,6 +146,7 @@ int main()
         HandleWinning(winning);
         return 0;
 }
+
 
 
 
