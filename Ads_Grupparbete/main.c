@@ -17,7 +17,6 @@ typedef struct
 //    char message[100];
     int allAds;
     int tokens;
-    int amountAds;
     int start;
     int stop;
     
