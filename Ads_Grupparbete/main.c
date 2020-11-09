@@ -84,7 +84,7 @@ int main()
 //        HandleWinning(winning);
         
         
-        //Huvudmeny(&state);
+        //Huvudmeny(&state);ändringhejhej
 
         return 0;
 }
