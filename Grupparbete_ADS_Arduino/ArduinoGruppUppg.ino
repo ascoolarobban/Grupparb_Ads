@@ -10,8 +10,9 @@ typedef struct
     
 }ADS;
 
-const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, LED = 13;
 int previouseWinner = 0;
+int r;
 
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
@@ -20,8 +21,9 @@ void setup()
 
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
-  srand(3);
-  //randomSeed(analogRead(A0));
+  pinMode(LED,OUTPUT);
+  //srand(1000);
+  randomSeed(analogRead(A0));
 }
 
 void HandleWinning(ADS winning)
@@ -52,10 +54,34 @@ void HandleWinning(ADS winning)
         RunOneOfHarry();
 
     }
+    else if (winning.name == 6)
+    {
+      RunOneOfYrrol();
+    }
 
 }
 
-
+void RunOneOfYrrol()
+{
+  char str[] = "     T-rod!";
+  char str1[] = "For dig som tankt klart";
+  digitalWrite(LED,HIGH);
+  lcd.setCursor(0,0);
+  lcd.print(str);
+  delay(3000);
+  lcd.setCursor(0,1);
+  lcd.print(str1);
+  for (int loopiloop = 0; loopiloop < 3; loopiloop++)
+    {
+      for (int positionCounter = 0; positionCounter < 39; positionCounter++) 
+        {
+            lcd.scrollDisplayLeft();
+            delay(200);
+        }
+    }
+  digitalWrite(LED,LOW);
+  lcd.clear();
+}
 
 void RunOneOfIot()
 {
@@ -65,10 +91,13 @@ void RunOneOfIot()
   for (int loopiloop = 0; loopiloop < 3; loopiloop++)
   {
     for (int positionCounter = 0; positionCounter < 31; positionCounter++) 
-    {
-    lcd.scrollDisplayLeft();
-    delay(200);
-    }
+      {
+        digitalWrite(LED,HIGH);
+        lcd.scrollDisplayLeft();
+        delay(200);
+        digitalWrite(LED,LOW);
+        delay(200);
+      }
   }
   lcd.clear();
 }
@@ -82,7 +111,7 @@ void RunOneOfSvarteP()
   lcd.setCursor(0,0);
   char str[] = "   Lat Petter bygga at dig";
   lcd.print(str);
-  for (int loopiloop = 0; loopiloop < 3; loopiloop++)
+  for (int loopiloop = 0; loopiloop < 1; loopiloop++)
   {
     for (int positionCounter = 0; positionCounter < 42; positionCounter++) 
     {
@@ -114,7 +143,7 @@ void RunOneOfFarmor()
     char str[] = "Kop paj hos Farmor Anka";
     lcd.print(str);
     
-    for (int loopiloop = 0; loopiloop < 3; loopiloop++)
+    for (int loopiloop = 0; loopiloop < 1; loopiloop++)
     {
       for (int positionCounter = 0; positionCounter < 39; positionCounter++) 
       {
@@ -177,7 +206,7 @@ void RunOneOfHarry()
     char str[] = "Kop bil hos Harry!";
     lcd.print(str);
   
-    for (int loopiloop = 0; loopiloop < 3; loopiloop++)
+    for (int loopiloop = 0; loopiloop < 1; loopiloop++)
     {
       for (int positionCounter = 0; positionCounter < 34; positionCounter++) 
       {
@@ -248,13 +277,20 @@ void loop()
     a5.tokens = 5000;
     a5.start = 15504;
     a5.stop = 20505;
+
+    ADS a6;
+    a6.name = 6;
+    a6.tokens = 6000;
+    a6.start = 20506;
+    a6.stop = 26507;
     
-    ADS customers[5];
+    ADS customers[6];
         customers[0] = a;
         customers[1] = a2;
         customers[2] = a3;
         customers[3] = a4;
         customers[4] = a5;
+        customers[5] = a6;
         int summatokens = 0;
     
     int *p = &a5.tokens;
@@ -264,8 +300,8 @@ void loop()
     {
       summatokens += customers[i].tokens;
     }
-    
-        int r = rand() % summatokens;
+        r = random(26507);
+        //int r = rand() % summatokens;
 
     ADS winning;
     if (r >= a.start && r <a.stop)
@@ -287,6 +323,10 @@ void loop()
     else if (r >= a5.start && r <a5.stop)
     {
         winning = a5;
+    }
+    else if (r >= a6.start && r <a6.stop)
+    {
+        winning = a6;
     }
 
     if (previouseWinner != winning.name)
