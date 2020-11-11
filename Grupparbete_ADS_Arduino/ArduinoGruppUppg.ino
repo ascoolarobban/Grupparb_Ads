@@ -1,5 +1,6 @@
 #include <LiquidCrystal.h>
 #include <time.h>
+
 typedef struct
 {
     int name;
@@ -10,19 +11,22 @@ typedef struct
     
 }ADS;
 
+unsigned long current_time;
+int minutes;
+int hours;
+
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, LED = 13;
 int previouseWinner = 0;
 int r;
+int Li = 16;
+int Lii = 0;
 
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 void setup()
 {
-
-  // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
   pinMode(LED,OUTPUT);
-  //srand(1000);
   randomSeed(analogRead(A0));
 }
 
@@ -63,41 +67,35 @@ void HandleWinning(ADS winning)
 
 void RunOneOfYrrol()
 {
-  char str[] = "     T-rod!";
+  char str[] = "      T-rod!";
   char str1[] = "For dig som tankt klart";
   digitalWrite(LED,HIGH);
   lcd.setCursor(0,0);
   lcd.print(str);
-  delay(3000);
-  lcd.setCursor(0,1);
-  lcd.print(str1);
-  for (int loopiloop = 0; loopiloop < 3; loopiloop++)
-    {
-      for (int positionCounter = 0; positionCounter < 39; positionCounter++) 
-        {
-            lcd.scrollDisplayLeft();
-            delay(200);
-        }
-    }
+  for (int loopiloop = 0; loopiloop < 56; loopiloop++)
+  {
+    lcd.setCursor(0,1);
+    lcd.print(Scroll_LCD_Left(str1));
+    delay(200);
+  }
   digitalWrite(LED,LOW);
   lcd.clear();
 }
 
 void RunOneOfIot()
 {
+  char str[] = "      IoT20";
+  char str1[] = "Blip Blop Blip Blink Hej";
   lcd.setCursor(0,0);
-  char str[] = "IoT20IoT20IoT20";
-  lcd.print(str);  
-  for (int loopiloop = 0; loopiloop < 3; loopiloop++)
+  lcd.print(str);
+  for (int loopiloop = 0; loopiloop < 57; loopiloop++)
   {
-    for (int positionCounter = 0; positionCounter < 31; positionCounter++) 
-      {
-        digitalWrite(LED,HIGH);
-        lcd.scrollDisplayLeft();
-        delay(200);
-        digitalWrite(LED,LOW);
-        delay(200);
-      }
+    lcd.display();
+    delay(150);
+    lcd.noDisplay();
+    lcd.setCursor(0,1);
+    lcd.print(Scroll_LCD_Left(str1));
+    delay(150);
   }
   lcd.clear();
 }
@@ -105,26 +103,24 @@ void RunOneOfIot()
 
 void RunOneOfSvarteP()
 {
-  long time  = millis() * 60000;
-  if (time %2 == 0)
+
+  if (minutes % 2 == 0)
   {
   lcd.setCursor(0,0);
-  char str[] = "   Lat Petter bygga at dig";
-  lcd.print(str);
-  for (int loopiloop = 0; loopiloop < 1; loopiloop++)
-  {
-    for (int positionCounter = 0; positionCounter < 42; positionCounter++) 
+  lcd.print("Svarte Petter SB");
+  char str[] = "Lat Petter bygga at dig";
+  for (int loopiloop = 0; loopiloop < 55; loopiloop++)
     {
-    lcd.scrollDisplayLeft();
-    delay(200);
+      
+      lcd.setCursor(0,1);
+      lcd.print(Scroll_LCD_Left(str));
+      delay(200);
     }
   }
-  lcd.clear();
-  }
-  else
+    else
   {
-    char str1[] = "Bygga svart?";
-    char str2[] = "Ring Petter";
+    char str1[] = " Bygga  svart?";
+    char str2[] = "  Ring Petter";
     lcd.setCursor(0,0);
     lcd.print(str1);
     lcd.setCursor(0,1);
@@ -143,13 +139,11 @@ void RunOneOfFarmor()
     char str[] = "Kop paj hos Farmor Anka";
     lcd.print(str);
     
-    for (int loopiloop = 0; loopiloop < 1; loopiloop++)
+    for (int loopiloop = 0; loopiloop < 57; loopiloop++)
     {
-      for (int positionCounter = 0; positionCounter < 39; positionCounter++) 
-      {
-        lcd.scrollDisplayLeft();
-        delay(200);
-      }
+      lcd.setCursor(0,1);
+      lcd.print(Scroll_LCD_Left(str));
+      delay(200);
     }
     lcd.clear();
   }
@@ -171,29 +165,27 @@ void RunOneOfFarmor()
 }
 void RunOneOfLangben()
 {
-   long time = millis();
-
-   if (time > 21600000)
+  if (hours > 6 && hours <17)
+    {
+      char str1[] = " Mysterier?";
+      char str2[] = "Ring Longleg";
+      lcd.setCursor(0,0);
+      lcd.print(str1);
+      lcd.setCursor(0,1);
+      lcd.print(str2);
+      delay(4000);
+      lcd.clear();
+    }
+  else
    {
-    char str1[] = " Mysterier?";
-    char str2[] = "Ring Longleg";
-    lcd.setCursor(0,0);
-    lcd.print(str1);
-    lcd.setCursor(0,1);
-    lcd.print(str2);
-    delay(4000);
-    lcd.clear();
-   }
-   else
-   {
-    char str1[] = "    Longleg";
-    char str2[] = "  fixar biffen";
-    lcd.setCursor(0,0);
-    lcd.print(str1);
-    lcd.setCursor(0,1);
-    lcd.print(str2);
-    delay(4000);
-    lcd.clear();
+      char str1[] = "    Longleg";
+      char str2[] = "  fixar biffen";
+      lcd.setCursor(0,0);
+      lcd.print(str1);
+      lcd.setCursor(0,1);
+      lcd.print(str2);
+      delay(4000);
+      lcd.clear();
    }
 }
 void RunOneOfHarry()
@@ -202,17 +194,12 @@ void RunOneOfHarry()
  
   if (index == 0)
   {
-    lcd.setCursor(0,0);
     char str[] = "Kop bil hos Harry!";
-    lcd.print(str);
-  
-    for (int loopiloop = 0; loopiloop < 1; loopiloop++)
+    lcd.setCursor(0,0);
+    for (int loopiloop = 0; loopiloop < 40; loopiloop++)
     {
-      for (int positionCounter = 0; positionCounter < 34; positionCounter++) 
-      {
-      lcd.scrollDisplayLeft();
+      lcd.print(Scroll_LCD_Left(str));
       delay(200);
-      }
     }
       lcd.clear();
     }
@@ -232,22 +219,28 @@ void RunOneOfHarry()
     lcd.display();
     delay(800);
   }
-    lcd.clear();
+  
   }
   else if (index == 2)
   {
+    char str[] = "Hederlige Harry";
     char str1[] = "En god bilaffar!";
+    lcd.setCursor(0,0);
+    lcd.print(str);
+    lcd.setCursor(0,1);
     lcd.print(str1);
-    delay(1000);
-    lcd.clear();
+    delay(3000);
   }
-    
+  lcd.clear();
 }
 
 
 void loop()
 {
-
+    current_time = millis();
+    minutes = current_time / 60000;
+    hours = current_time / 3600000;
+    
     ADS a;
     a.name = 1;
     a.tokens = 1000;
@@ -301,7 +294,6 @@ void loop()
       summatokens += customers[i].tokens;
     }
         r = random(26507);
-        //int r = rand() % summatokens;
 
     ADS winning;
     if (r >= a.start && r <a.stop)
@@ -338,7 +330,23 @@ void loop()
     {
         ;
     }
+}
+String Scroll_LCD_Left(String StrDisplay)
+{
+  String result;
+  String StrProcess = "                " + StrDisplay + "                ";
+  result = StrProcess.substring(Li,Lii);
+  Li++;
+  Lii++;
+  if (Li>StrProcess.length()){
+    Li=16;
+    Lii=0;
+  }
+  return result;
+}
 
-    
-        return 0;
+void Scroll_LCD_Left()
+{
+  Li = 16;
+  Lii = 0;
 }
